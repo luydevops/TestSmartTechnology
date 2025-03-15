@@ -1,0 +1,89 @@
+version: '3.8'
+name: ${DOCKER_PROYECT}
+services:  
+  python:
+    build:
+      dockerfile: ${PYTHIN_FILE}
+    container_name: ${PYTHIN_CONTAINER_NAME}
+    working_dir: ${WORKING_DIR}
+    depends_on:
+      - PostgreSQL
+    deploy:
+      resources:
+        limits:
+          cpus: ${PYTHIN_LIMITS_CPUS}
+          memory: ${PYTHIN_LIMITS_MEMORY}
+        reservations:
+          cpus: ${DEFOULT_RESERVATIONS_CPUS}
+          memory: ${PYTHIN_RESERVATIONS_MEMORY}
+    expose:
+      - ${PYTHIN_PORT}
+    ports:
+      - ${PYTHIN_PORT}:3000
+    command: ${PYTHIN_COMMAND}
+    volumes:
+      - ../src/back:${PYTHIN_VOLUME}
+    networks:
+      - serv-bridge
+      - db_network-sql
+
+  PostgreSQL:
+    image: ${POSTGRESQL_IMAGE}
+    container_name: ${DB_CONTAINER_NAME}
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: ${DEFOULT_LIMITS_CPUS}
+          memory: ${DEFOULT_LIMITS_MEMORY}
+        reservations:
+          cpus: ${DEFOULT_RESERVATIONS_CPUS}
+          memory: ${DEFOULT_RESERVATIONS_MEMORY}
+    expose:
+      - ${DB_PORT}
+    ports:
+      - ${DB_PORT}:5432
+    volumes: 
+      - ${DB_DATA_VOLUME}
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_PASSWORD: ${DB_ROOT_PASSWORD}
+      POSTGRES_USER: root
+    networks:
+      - serv-bridge
+      - db_network-sql
+
+  rectjs:
+    build:
+      dockerfile: ${REACTJS_FILE}
+    container_name: ${REACTJS_CONTAINER_NAME}
+    working_dir: ${WORKING_DIR}
+    deploy:
+      resources:
+        limits:
+          cpus: ${DEFOULT_LIMITS_CPUS}
+          memory: ${DEFOULT_LIMITS_MEMORY}
+        reservations:
+          cpus: ${DEFOULT_RESERVATIONS_CPUS}
+          memory: ${DEFOULT_RESERVATIONS_MEMORY}
+    tty: true
+    expose:
+      - ${REACTJS_PORT}
+    ports:
+      - ${REACTJS_PORT}:3000
+    command: ${REACTJS_COMMAND}
+    volumes:
+      - ../src/front:${REACTJS_VOLUME}
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - PostgreSQL
+    networks:
+      - serv-bridge
+      - db_network-sql
+
+networks:
+  serv-bridge:
+    driver: bridge
+  db_network-sql:
+    external: true
