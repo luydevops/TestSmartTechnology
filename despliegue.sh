@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Directorio base
-BASE_DIR="testSmartTechnology/"
+BASE_DIR="./"
 
 # URLs de los repositorios
 BACKEND_REPO="https://github.com/luydevops/TestSmartTechnology_back.git"
