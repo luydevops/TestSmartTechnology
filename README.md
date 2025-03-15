@@ -241,16 +241,27 @@ Este es un proyecto de ejemplo que consiste en una API Gateway construida con **
    cd testSmartTechnology/deploy
    ```
 
-2. **Backend (FastAPI y PostgreSQL):**
+2.  **Despliegue Rápido con Script:**
+    * Para simplificar el despliegue, puedes usar el script `despliegue.sh` proporcionado en el directorio `/deploy`. Este script automatiza la construcción de las imágenes de Docker y el levantamiento de los contenedores.
+    * **Requisitos Previos:**
+        * Asegúrate de tener Docker y Docker Compose instalados en tu sistema.
+        * **Importante**: El servicio de Docker debe estar activo antes de ejecutar el script.
+    * **Ejecución del Script:**
+        * Abre una terminal y navega al directorio `/deploy`.
+        * Ejecuta el script `despliegue.sh`:
 
-   Navega a la carpeta del backend y construye los contenedores Docker:
+        ```bash
+        chmod +x despliegue.sh
+        ./despliegue.sh
+        ```
 
-   ```bash
-   cd backend
-   docker-compose up --build
-   ```
+    * El script realizará las siguientes acciones:
+        * Verifica que Docker esté en ejecución.
+        * Construye las imágenes de Docker para el backend y el frontend.
+        * Levanta los contenedores usando `docker-compose up --build`.
+        * Muestra los logs de los contenedores en tiempo real.
+    * **Nota**: El script utiliza las variables de entorno definidas en el archivo `.env` en el mismo directorio. Asegúrate de configurar este archivo correctamente antes de ejecutar el script.
 
-   Esto levantará el servidor de FastAPI y la base de datos PostgreSQL en los puertos configurados.
 
    **Configuración de CORS**: En el archivo `src/main.py`, se configuran los dominios permitidos para las solicitudes CORS (Cross-Origin Resource Sharing). Si necesitas permitir solicitudes desde diferentes dominios, puedes agregar o modificar los dominios dentro de esta configuración en la línea correspondiente:
 
@@ -298,6 +309,25 @@ Este es un proyecto de ejemplo que consiste en una API Gateway construida con **
 ## Autenticación
 
 Las rutas del backend requieren autenticación mediante un **JWT**. Para acceder a las rutas protegidas, primero debes obtener el token realizando una solicitud POST a `/gateway/login/` con las credenciales adecuadas.
+
+
+
+
+## Repositorios del Proyecto
+
+Este proyecto está compuesto por dos repositorios principales:
+
+* **Backend (FastAPI)**: [https://github.com/luydevops/TestSmartTechnology_back.git](https://github.com/luydevops/TestSmartTechnology_back.git)
+* **Frontend (Next.js)**: [https://github.com/luydevops/TestSmartTechnology_front.git](https://github.com/luydevops/TestSmartTechnology_front.git)
+
+## Soporte y Consultas
+
+Si tienes alguna pregunta, problema o inquietud, puedes consultar los repositorios individuales para obtener más información y buscar soluciones:
+
+* **Backend**: Para problemas relacionados con la API, la base de datos o la lógica del servidor, consulta el repositorio del backend.
+* **Frontend**: Para problemas relacionados con la interfaz de usuario, los componentes o la navegación, consulta el repositorio del frontend.
+
+Puedes abrir issues en los repositorios correspondientes para reportar bugs o solicitar nuevas funcionalidades.
 
 ## Contribución
 
