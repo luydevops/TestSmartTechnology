@@ -22,7 +22,7 @@ services:
       - ${PYTHIN_PORT}:3000
     command: ${PYTHIN_COMMAND}
     volumes:
-      - ../src/back:${PYTHIN_VOLUME}
+      - ./backend:${PYTHIN_VOLUME}
     networks:
       - serv-bridge
       - db_network-sql
@@ -73,7 +73,7 @@ services:
       - ${REACTJS_PORT}:3000
     command: ${REACTJS_COMMAND}
     volumes:
-      - ../src/front:${REACTJS_VOLUME}
+      - ./frontend:${REACTJS_VOLUME}
     environment:
       - CHOKIDAR_USEPOLLING=true
     depends_on:
